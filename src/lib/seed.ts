@@ -49,7 +49,7 @@ export function seedData(): Db {
         department: "Engineering",
         managerId: "e2",
         salary: 135000,
-        descopeUserId: "U3MSmhJmv2xYuGEYHLxisXLWPH4V",
+        descopeUserId: process.env.DESCOPE_USER_ID_EMMA || "U3MSmhJmv2xYuGEYHLxisXLWPH4V",
       },
       {
         id: "e2",
@@ -59,7 +59,7 @@ export function seedData(): Db {
         department: "Engineering",
         managerId: "e7",
         salary: 185000,
-        descopeUserId: "U3MSmhLW6XLfYbfFLEgDf4rNx5kd",
+        descopeUserId: process.env.DESCOPE_USER_ID_MARK || "U3MSmhLW6XLfYbfFLEgDf4rNx5kd",
       },
       {
         id: "e3",
@@ -69,7 +69,7 @@ export function seedData(): Db {
         department: "People",
         managerId: "e7",
         salary: 172000,
-        descopeUserId: "U3MSmhHvhhrMsBcZEWMijgdQEaLz",
+        descopeUserId: process.env.DESCOPE_USER_ID_HANNAH || "U3MSmhHvhhrMsBcZEWMijgdQEaLz",
       },
       {
         id: "e4",
