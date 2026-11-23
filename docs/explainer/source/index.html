@@ -19,6 +19,7 @@ html,body{width:1280px;height:720px;overflow:hidden;background:var(--bg);font-fa
 .bar .t{margin-left:10px}
 .mx{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#3D5AFE,#7C4DFF);color:#fff;font-weight:800;font-size:16px}
 .desc{display:inline-flex;align-items:center;gap:8px;font-weight:800;letter-spacing:-.02em;color:var(--desc)}
+.desc .dl{height:1.25em;width:auto}
 .desc .d{display:inline-flex;align-items:center;justify-content:center;width:1.25em;height:1.25em;border-radius:.32em;background:var(--desc);color:#fff;font-size:.8em}
 .claude{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--ink)}
 .claude img{width:1.1em;height:1.1em}
@@ -69,7 +70,7 @@ td:last-child{text-align:right;font-weight:700;font-variant-numeric:tabular-nums
   <div class="abs a big" data-in="0.5" style="left:0;right:0;top:240px;text-align:center">Matrix Technologies</div>
   <div class="abs a" data-in="1.0" style="left:0;right:0;top:312px;text-align:center;font-size:26px;color:var(--mute);font-weight:600">How to give an AI assistant safe access to your app</div>
   <div class="abs a" data-in="1.8" style="left:0;right:0;top:400px;display:flex;justify-content:center;align-items:center;gap:26px;font-size:30px">
-    <span class="desc"><span class="d">D</span>Descope</span><span style="color:#B3B8C6">+</span><span class="claude"><img src="claude.svg">Claude</span><span style="color:#B3B8C6">+</span><span style="font-weight:800">MCP</span>
+    <span class="desc"><img class="dl" src="descope.png">Descope</span><span style="color:#B3B8C6">+</span><span class="claude"><img src="claude.svg">Claude</span><span style="color:#B3B8C6">+</span><span style="font-weight:800">MCP</span>
   </div>
   <div class="abs a" data-in="2.8" style="left:0;right:0;top:500px;display:flex;justify-content:center;gap:14px;font-size:17px;font-weight:700">
     <span class="card" style="padding:10px 18px">1 · The portal</span>
@@ -91,7 +92,7 @@ td:last-child{text-align:right;font-weight:700;font-variant-numeric:tabular-nums
       <div style="margin-top:6px;height:42px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;padding:0 12px;font-size:15px"><span class="type" data-in="7.6" data-cps="22" data-text="emma@matrix.example"></span></div>
       <div class="a" data-in="8.8" style="margin-top:14px;height:44px;border-radius:10px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">Email me a sign-in link</div>
       <div class="a" data-in="9.4" style="margin-top:16px;font-size:14px;color:var(--mute);font-weight:600;text-align:center">✉️ Magic link sent. Click it to sign in.</div>
-      <div class="a" data-in="9.0" style="margin-top:30px;display:flex;justify-content:center;align-items:center;gap:8px;font-size:13px;color:var(--mute);font-weight:600">Secured by <span class="desc" style="font-size:15px"><span class="d">D</span>Descope</span></div>
+      <div class="a" data-in="9.0" style="margin-top:30px;display:flex;justify-content:center;align-items:center;gap:8px;font-size:13px;color:var(--mute);font-weight:600">Secured by <span class="desc" style="font-size:15px"><img class="dl" src="descope.png">Descope</span></div>
     </div>
   </div>
   <div class="abs card pc a" data-in="10.4" style="left:520px;top:150px">
@@ -107,7 +108,7 @@ td:last-child{text-align:right;font-weight:700;font-variant-numeric:tabular-nums
     <div class="can"><div>See and change everyone's salary</div></div>
   </div>
   <div class="abs a" data-in="14.0" style="left:900px;top:220px;width:330px;font-size:21px;line-height:1.5;font-weight:600;color:#2C3242">
-    Roles and permissions live in <span class="desc"><span class="d">D</span>Descope</span>.<br><br>The portal checks them on every page and every change.
+    Roles and permissions live in <span class="desc"><img class="dl" src="descope.png">Descope</span>.<br><br>The portal checks them on every page and every change.
   </div>
   <div class="cap a" data-in="15.2">Everyone signs in. <em>Each role sees only what it should.</em></div>
 </section>
@@ -171,7 +172,7 @@ td:last-child{text-align:right;font-weight:700;font-variant-numeric:tabular-nums
   <!-- flow diagram -->
   <div class="node a" data-in="44.6" style="left:60px;top:170px;width:130px;height:120px"><div class="card" style="width:74px;height:74px;display:flex;align-items:center;justify-content:center"><img src="claude.svg" style="width:42px"></div>Claude</div>
   <div class="arrow" style="left:200px;top:218px;width:150px"><i class="grow" data-in="45.2"></i></div>
-  <div class="node a" data-in="45.6" style="left:360px;top:170px;width:160px;height:120px"><div class="card" style="width:74px;height:74px;display:flex;align-items:center;justify-content:center"><span class="desc" style="font-size:34px"><span class="d" style="width:1.3em;height:1.3em">D</span></span></div>Descope<small>sign in · consent · policy</small></div>
+  <div class="node a" data-in="45.6" style="left:360px;top:170px;width:160px;height:120px"><div class="card" style="width:74px;height:74px;display:flex;align-items:center;justify-content:center"><img src="descope.png" style="height:46px"></div>Descope<small>sign in · consent · policy</small></div>
   <div class="arrow" style="left:530px;top:218px;width:150px"><i class="grow" data-in="52.6"></i></div>
   <div class="abs a" data-in="52.8" style="left:530px;top:184px;width:150px;text-align:center;font-size:13px;font-weight:700;color:var(--blue)">token for one person</div>
   <div class="node a" data-in="53.2" style="left:690px;top:170px;width:190px;height:120px"><div class="card mono" style="padding:14px 12px;font-weight:700">/api/mcp</div>Same MCP server<small>checks every call</small></div>
@@ -239,7 +240,7 @@ td:last-child{text-align:right;font-weight:700;font-variant-numeric:tabular-nums
     <div style="margin-top:6px"><span class="pill">hr:profile</span><span class="pill">hr:expenses</span><span class="pill">hr:approvals</span><span class="pill">hr:salaries</span></div>
   </div>
   <div class="abs a" data-in="58.0" style="left:48px;top:400px;width:340px;font-size:18px;line-height:1.55;font-weight:600;color:#2C3242">
-    <div style="margin-bottom:10px"><span class="desc" style="font-size:18px"><span class="d">D</span>Descope</span> says <i>what kind</i> of access.</div>
+    <div style="margin-bottom:10px"><span class="desc" style="font-size:18px"><img class="dl" src="descope.png">Descope</span> says <i>what kind</i> of access.</div>
     <div>The app decides <i>whose</i> records, because it knows the org chart.</div>
   </div>
   <!-- chat -->
@@ -307,7 +308,7 @@ td:last-child{text-align:right;font-weight:700;font-variant-numeric:tabular-nums
     <span class="card" style="padding:14px 20px">📜 Audit log with names</span>
   </div>
   <div class="abs a" data-in="91.6" style="left:0;right:0;top:470px;display:flex;justify-content:center;align-items:center;gap:26px;font-size:34px">
-    <span class="desc"><span class="d">D</span>Descope</span><span style="color:#B3B8C6">+</span><span class="claude"><img src="claude.svg">Claude</span>
+    <span class="desc"><img class="dl" src="descope.png">Descope</span><span style="color:#B3B8C6">+</span><span class="claude"><img src="claude.svg">Claude</span>
   </div>
 </section>
 

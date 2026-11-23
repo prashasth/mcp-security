@@ -15,4 +15,4 @@ node render.js   # needs playwright and ffmpeg; writes matrix-mcp-explainer.mp4
 ffmpeg -i matrix-mcp-explainer.mp4 -vf "fps=12,scale=800:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=128[p];[b][p]paletteuse=dither=bayer:bayer_scale=4" matrix-mcp-explainer.gif
 ```
 
-Timings are the `data-in` / `data-out` seconds on each element. The Claude mark is from [Simple Icons](https://simpleicons.org) (CC0); Descope is shown as a text mark.
+Timings are the `data-in` / `data-out` seconds on each element. The Claude mark is from [Simple Icons](https://simpleicons.org) (CC0); the Descope logo was supplied by the project owner.
