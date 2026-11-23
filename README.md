@@ -10,6 +10,10 @@ Claude is the MCP client in stages 2 and 3.
 
 ## The story
 
+![Animated explainer of the three stages](docs/explainer/matrix-mcp-explainer.gif)
+
+Full video: [docs/explainer/matrix-mcp-explainer.mp4](docs/explainer/matrix-mcp-explainer.mp4)
+
 **Stage 1: a normal company portal.** Matrix Technologies runs an internal HR and expenses portal. Employees sign in with Descope, and what they see depends on their role: Emma (Employee) sees her own pay, Mark (Manager) approves his team's expenses, and Hannah (HR Admin) manages everyone's salaries. Everything is locked down the way it should be.
 
 **Stage 2: "we shipped MCP".** Everyone wants to use AI assistants at work, so the team adds an MCP server to the portal and announces that Claude can now use Matrix directly. It works, and it's fast. But the MCP endpoint never asks who is calling. Any assistant that knows the URL can list every employee's salary, approve expenses or change pay, with no login at all. The portal's careful role checks don't apply to this new door.
