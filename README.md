@@ -8,6 +8,16 @@ A demo of a web portal that gains MCP access, in three stages:
 
 Claude is the MCP client in stages 2 and 3.
 
+## The story
+
+**Stage 1: a normal company portal.** Matrix Technologies runs an internal HR and expenses portal. Employees sign in with Descope, and what they see depends on their role: Emma (Employee) sees her own pay, Mark (Manager) approves his team's expenses, and Hannah (HR Admin) manages everyone's salaries. Everything is locked down the way it should be.
+
+**Stage 2: "we shipped MCP".** Everyone wants to use AI assistants at work, so the team adds an MCP server to the portal and announces that Claude can now use Matrix directly. It works, and it's fast. But the MCP endpoint never asks who is calling. Any assistant that knows the URL can list every employee's salary, approve expenses or change pay, with no login at all. The portal's careful role checks don't apply to this new door.
+
+**Stage 3: the same URL, now with identity.** The team puts Descope in front of the MCP server, using no new URL and no new client. Now when Claude connects, the person has to sign in and approve what the assistant may do (OAuth consent with scopes). Access policies make sure each role can only grant what it's allowed. Emma's assistant can see her pay but not anyone else's, Mark's can see his direct reports' salaries but can't change them, and Hannah's can do everything. Every MCP call is tied to a real person and shows up in the audit log.
+
+The takeaway: an MCP server is a new front door to your app. Give it the same identity and authorization as the rest of the app.
+
 ## Personas
 
 | Persona | Role | Email | Can do |
