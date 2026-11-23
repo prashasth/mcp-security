@@ -1,0 +1,343 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+:root{--bg:#F6F7FB;--ink:#141826;--mute:#5B6275;--line:#E3E6EF;--card:#fff;--blue:#3D5AFE;--claude:#D97757;--red:#E5484D;--green:#21965A;--amber:#E8A317;--desc:#111827}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1280px;height:720px;overflow:hidden;background:var(--bg);font-family:Inter,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.scene{position:absolute;inset:0}
+.a,.scene{opacity:0}
+.abs{position:absolute}
+.tag{position:absolute;left:48px;top:36px;display:flex;align-items:center;gap:12px;font-weight:700;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.tag b{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:var(--ink);color:#fff;font-size:15px;letter-spacing:0}
+.h1{position:absolute;left:48px;top:76px;font-size:36px;font-weight:800;letter-spacing:-.02em}
+.cap{position:absolute;left:48px;right:48px;bottom:34px;font-size:22px;font-weight:600;color:var(--ink)}
+.cap em{font-style:normal;color:var(--blue)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 30px rgba(20,24,38,.08)}
+.win{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 40px rgba(20,24,38,.12);overflow:hidden}
+.bar{height:34px;background:#F0F1F5;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:7px;padding:0 12px;font-size:13px;color:var(--mute);font-weight:600}
+.dot{width:11px;height:11px;border-radius:50%;background:#D6D9E2}
+.bar .t{margin-left:10px}
+.mx{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#3D5AFE,#7C4DFF);color:#fff;font-weight:800;font-size:16px}
+.desc{display:inline-flex;align-items:center;gap:8px;font-weight:800;letter-spacing:-.02em;color:var(--desc)}
+.desc .dl{height:1.25em;width:auto}
+.desc .d{display:inline-flex;align-items:center;justify-content:center;width:1.25em;height:1.25em;border-radius:.32em;background:var(--desc);color:#fff;font-size:.8em}
+.claude{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--ink)}
+.claude img{width:1.1em;height:1.1em}
+.pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:700;background:#EEF1FF;color:var(--blue);margin:2px 4px 2px 0}
+.pill.r{background:#FDECEC;color:var(--red)} .pill.g{background:#E6F5EC;color:var(--green)} .pill.k{background:#F0F1F5;color:var(--mute)}
+/* chat */
+.chat{background:#FAF9F5}
+.chat .bar{background:#F1EFE8}
+.msgs{position:absolute;left:0;right:0;top:34px;bottom:56px;padding:18px 20px}
+.ex{position:absolute;left:20px;right:20px;top:18px}
+.u{margin-left:auto;max-width:82%;width:fit-content;background:#EDEAE0;border-radius:14px;padding:10px 14px;font-size:16px;line-height:1.35;margin-bottom:12px}
+.c{display:flex;gap:10px;font-size:16px;line-height:1.45}
+.c>img{width:22px;height:22px;flex:none;margin-top:1px}
+.tool{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--mute);background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px 9px;margin-bottom:8px;font-family:"DejaVu Sans Mono",monospace}
+.input{position:absolute;left:16px;right:16px;bottom:12px;height:36px;border:1px solid var(--line);background:#fff;border-radius:10px;font-size:14px;color:#9AA0AE;display:flex;align-items:center;padding:0 12px}
+table{border-collapse:collapse;font-size:13.5px;width:100%}
+td{padding:4px 8px;border-bottom:1px solid #EEECE4}
+td:last-child{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.deny{display:flex;align-items:center;gap:10px;background:#FDECEC;color:#A32025;border:1px solid #F7C9CB;border-radius:10px;padding:9px 12px;font-weight:700;font-size:15px}
+.ok{display:flex;align-items:center;gap:10px;background:#E6F5EC;color:#14653C;border:1px solid #BFE5CF;border-radius:10px;padding:9px 12px;font-weight:700;font-size:15px}
+.ic{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:800;flex:none}
+.ic.r{background:var(--red)} .ic.g{background:var(--green)}
+/* persona */
+.pc{width:340px;padding:18px 20px}
+.av{width:44px;height:44px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px;flex:none}
+.prow{display:flex;gap:14px;align-items:center}
+.pn{font-weight:800;font-size:19px}.pr{font-size:14px;color:var(--mute);font-weight:600}
+.can{margin-top:12px;font-size:14.5px;line-height:1.55;color:#2C3242}
+.can div::before{content:"✓  ";color:var(--green);font-weight:800}
+.can div.x::before{content:"✕  ";color:var(--red)}
+/* diagram */
+.node{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;font-weight:700;font-size:16px}
+.node small{font-weight:600;color:var(--mute);font-size:13px}
+.arrow{position:absolute;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.arrow i{position:absolute;inset:0;background:var(--blue);transform-origin:left;transform:scaleX(0)}
+.mono{font-family:"DejaVu Sans Mono",monospace;font-size:13.5px}
+.big{font-size:52px;font-weight:800;letter-spacing:-.03em;line-height:1.08}
+.log{font-size:14.5px;line-height:1.5}
+.log .row{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+</style></head>
+<body>
+
+<!-- ================= TITLE 0-6 ================= -->
+<section class="scene" data-in="0" data-out="6.2">
+  <div class="abs a" data-in="0.2" style="left:0;right:0;top:150px;text-align:center">
+    <span class="mx" style="width:64px;height:64px;font-size:34px;border-radius:16px">M</span>
+  </div>
+  <div class="abs a big" data-in="0.5" style="left:0;right:0;top:240px;text-align:center">Matrix Technologies</div>
+  <div class="abs a" data-in="1.0" style="left:0;right:0;top:312px;text-align:center;font-size:26px;color:var(--mute);font-weight:600">How to give an AI assistant safe access to your app</div>
+  <div class="abs a" data-in="1.8" style="left:0;right:0;top:400px;display:flex;justify-content:center;align-items:center;gap:26px;font-size:30px">
+    <span class="desc"><img class="dl" src="descope.png">Descope</span><span style="color:#B3B8C6">+</span><span class="claude"><img src="claude.svg">Claude</span><span style="color:#B3B8C6">+</span><span style="font-weight:800">MCP</span>
+  </div>
+  <div class="abs a" data-in="2.8" style="left:0;right:0;top:500px;display:flex;justify-content:center;gap:14px;font-size:17px;font-weight:700">
+    <span class="card" style="padding:10px 18px">1 · The portal</span>
+    <span class="card" style="padding:10px 18px">2 · We shipped MCP</span>
+    <span class="card" style="padding:10px 18px">3 · Secured with Descope</span>
+  </div>
+</section>
+
+<!-- ================= STAGE 1 6-20 ================= -->
+<section class="scene" data-in="6" data-out="20.2">
+  <div class="tag"><b>1</b> Stage 1 · The portal</div>
+  <div class="h1">An HR portal with Descope login</div>
+  <div class="abs win a" data-in="6.6" style="left:48px;top:150px;width:420px;height:420px">
+    <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="t">localhost:3010</span></div>
+    <div style="padding:30px 34px">
+      <div style="display:flex;align-items:center;gap:12px;font-weight:800;font-size:20px"><span class="mx">M</span>Matrix Technologies</div>
+      <div style="margin-top:6px;color:var(--mute);font-size:14px;font-weight:600">HR &amp; expenses portal</div>
+      <div style="margin-top:28px;font-size:14px;font-weight:700">Email</div>
+      <div style="margin-top:6px;height:42px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;padding:0 12px;font-size:15px"><span class="type" data-in="7.6" data-cps="22" data-text="emma@matrix.example"></span></div>
+      <div class="a" data-in="8.8" style="margin-top:14px;height:44px;border-radius:10px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">Email me a sign-in link</div>
+      <div class="a" data-in="9.4" style="margin-top:16px;font-size:14px;color:var(--mute);font-weight:600;text-align:center">✉️ Magic link sent. Click it to sign in.</div>
+      <div class="a" data-in="9.0" style="margin-top:30px;display:flex;justify-content:center;align-items:center;gap:8px;font-size:13px;color:var(--mute);font-weight:600">Secured by <span class="desc" style="font-size:15px"><img class="dl" src="descope.png">Descope</span></div>
+    </div>
+  </div>
+  <div class="abs card pc a" data-in="10.4" style="left:520px;top:150px">
+    <div class="prow"><span class="av" style="background:#3D5AFE">E</span><div><div class="pn">Emma</div><div class="pr">Employee</div></div></div>
+    <div class="can"><div>Her own profile and pay</div><div>Submit expenses</div></div>
+  </div>
+  <div class="abs card pc a" data-in="11.6" style="left:520px;top:300px">
+    <div class="prow"><span class="av" style="background:#E8A317">M</span><div><div class="pn">Mark</div><div class="pr">Manager</div></div></div>
+    <div class="can"><div>Approve his team's expenses</div><div>See his direct reports' pay</div></div>
+  </div>
+  <div class="abs card pc a" data-in="12.8" style="left:520px;top:450px">
+    <div class="prow"><span class="av" style="background:#21965A">H</span><div><div class="pn">Hannah</div><div class="pr">HR Admin</div></div></div>
+    <div class="can"><div>See and change everyone's salary</div></div>
+  </div>
+  <div class="abs a" data-in="14.0" style="left:900px;top:220px;width:330px;font-size:21px;line-height:1.5;font-weight:600;color:#2C3242">
+    Roles and permissions live in <span class="desc"><img class="dl" src="descope.png">Descope</span>.<br><br>The portal checks them on every page and every change.
+  </div>
+  <div class="cap a" data-in="15.2">Everyone signs in. <em>Each role sees only what it should.</em></div>
+</section>
+
+<!-- ================= STAGE 2 20-44 ================= -->
+<section class="scene" data-in="20" data-out="44.2">
+  <div class="tag"><b>2</b> Stage 2 · "We shipped MCP"</div>
+  <div class="h1">Now Claude can use Matrix directly</div>
+  <!-- banner -->
+  <div class="abs card a" data-in="20.6" style="left:48px;top:150px;width:470px;padding:14px 18px;display:flex;gap:12px;align-items:center;font-weight:700;font-size:16px;background:#EEF1FF;border-color:#D5DCFF">
+    <span>🎉</span><span>Matrix Technologies now works with AI assistants like Claude</span>
+  </div>
+  <!-- diagram -->
+  <div class="node a" data-in="21.4" style="left:48px;top:250px;width:130px;height:120px"><div class="card" style="width:74px;height:74px;display:flex;align-items:center;justify-content:center"><img src="claude.svg" style="width:42px"></div>Claude<small>any assistant</small></div>
+  <div class="arrow" style="left:186px;top:298px;width:140px"><i class="grow" data-in="22.0"></i></div>
+  <div class="node a" data-in="22.4" style="left:330px;top:250px;width:190px;height:120px"><div class="card mono" style="padding:14px 12px;font-weight:700">/api/mcp</div>MCP server<small>Matrix Technologies</small></div>
+  <div class="abs a" data-in="23.2" style="left:186px;top:246px;width:140px;text-align:center;font-size:13px;font-weight:700;color:var(--red)">no sign-in</div>
+  <div class="abs card a" data-in="24.0" style="left:48px;top:410px;width:470px;padding:18px 20px;font-size:17px;line-height:1.6;font-weight:600">
+    <div style="color:var(--red);font-weight:800;margin-bottom:6px">The MCP server never asks who is calling</div>
+    <div>Anyone who knows the URL can read every salary, approve expenses or change pay.</div>
+  </div>
+  <!-- chat -->
+  <div class="abs win chat a" data-in="21" style="left:560px;top:130px;width:672px;height:500px">
+    <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="t">Claude</span><span style="margin-left:auto" class="pill k">matrix · connected</span></div>
+    <div class="msgs">
+      <div class="ex a" data-in="24.6" data-out="28.6">
+        <div class="u"><span class="type" data-in="24.6" data-text="Who does the Matrix Technologies server think I am?"></span></div>
+        <div class="c a" data-in="26.0"><img src="claude.svg"><div><div class="tool">⚙ matrix · whoami</div><div>The server sees you as <b>anonymous</b>. No login, no role.</div></div></div>
+      </div>
+      <div class="ex a" data-in="28.8" data-out="35.6">
+        <div class="u"><span class="type" data-in="28.8" data-text="List every employee with their salary."></span></div>
+        <div class="c a" data-in="30.0"><img src="claude.svg"><div style="flex:1"><div class="tool">⚙ matrix · list_employees</div>
+          <table>
+            <tr><td>Olivia Chen · CEO</td><td>$320,000</td></tr>
+            <tr><td>Mark Davies · Engineering Manager</td><td>$185,000</td></tr>
+            <tr><td>Hannah Lee · HR Director</td><td>$172,000</td></tr>
+            <tr><td>Daniel Kim · Sales Manager</td><td>$165,000</td></tr>
+            <tr><td>Raj Patel · Senior Software Engineer</td><td>$158,000</td></tr>
+            <tr><td>Emma Clarke · Software Engineer</td><td>$135,000</td></tr>
+            <tr><td>Sofia Martinez · Account Executive</td><td>$118,000</td></tr>
+          </table></div></div>
+      </div>
+      <div class="ex a" data-in="35.8" data-out="44.2">
+        <div class="u"><span class="type" data-in="35.8" data-text="Set Emma Clarke's salary to 250,000."></span></div>
+        <div class="c a" data-in="37.0"><img src="claude.svg"><div><div class="tool">⚙ matrix · update_salary</div><div>Done. Emma Clarke's salary is now <b>$250,000</b>.</div></div></div>
+        <div class="card a" data-in="38.6" style="margin-top:22px;padding:14px 16px">
+          <div style="font-size:13px;font-weight:800;color:var(--mute);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px">Portal · Activity log</div>
+          <div class="log"><div class="row"><span class="pill r">MCP</span><span><b>anonymous</b> changed salary of Emma Clarke: 135,000 → 250,000</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="input">Reply to Claude…</div>
+  </div>
+  <div class="cap a" data-in="39.6">No login. No role checks. <em>No idea who did it.</em></div>
+</section>
+
+<!-- ================= STAGE 3a 44-57 ================= -->
+<section class="scene" data-in="44" data-out="57.2">
+  <div class="tag"><b>3</b> Stage 3 · Secured with Descope</div>
+  <div class="h1">Same URL, now with identity</div>
+  <!-- flow diagram -->
+  <div class="node a" data-in="44.6" style="left:60px;top:170px;width:130px;height:120px"><div class="card" style="width:74px;height:74px;display:flex;align-items:center;justify-content:center"><img src="claude.svg" style="width:42px"></div>Claude</div>
+  <div class="arrow" style="left:200px;top:218px;width:150px"><i class="grow" data-in="45.2"></i></div>
+  <div class="node a" data-in="45.6" style="left:360px;top:170px;width:160px;height:120px"><div class="card" style="width:74px;height:74px;display:flex;align-items:center;justify-content:center"><img src="descope.png" style="height:46px"></div>Descope<small>sign in · consent · policy</small></div>
+  <div class="arrow" style="left:530px;top:218px;width:150px"><i class="grow" data-in="52.6"></i></div>
+  <div class="abs a" data-in="52.8" style="left:530px;top:184px;width:150px;text-align:center;font-size:13px;font-weight:700;color:var(--blue)">token for one person</div>
+  <div class="node a" data-in="53.2" style="left:690px;top:170px;width:190px;height:120px"><div class="card mono" style="padding:14px 12px;font-weight:700">/api/mcp</div>Same MCP server<small>checks every call</small></div>
+  <!-- sign-in card -->
+  <div class="abs win a" data-in="46.4" data-out="49.4" style="left:60px;top:330px;width:380px;height:290px">
+    <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="t">Sign in · Descope</span></div>
+    <div style="padding:22px 26px">
+      <div style="font-weight:800;font-size:19px">Sign in to Matrix Technologies HR</div>
+      <div style="margin-top:6px;color:var(--mute);font-size:14px;font-weight:600">Claude is asking to connect</div>
+      <div style="margin-top:18px;height:40px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;padding:0 12px;font-size:15px"><span class="type" data-in="47.0" data-cps="24" data-text="emma@matrix.example"></span></div>
+      <div class="a" data-in="48.0" style="margin-top:12px;display:flex;gap:8px">
+        <span class="card mono" style="width:38px;height:42px;display:flex;align-items:center;justify-content:center;font-size:20px">4</span><span class="card mono" style="width:38px;height:42px;display:flex;align-items:center;justify-content:center;font-size:20px">8</span><span class="card mono" style="width:38px;height:42px;display:flex;align-items:center;justify-content:center;font-size:20px">1</span><span class="card mono" style="width:38px;height:42px;display:flex;align-items:center;justify-content:center;font-size:20px">9</span><span class="card mono" style="width:38px;height:42px;display:flex;align-items:center;justify-content:center;font-size:20px">0</span><span class="card mono" style="width:38px;height:42px;display:flex;align-items:center;justify-content:center;font-size:20px">7</span>
+      </div>
+      <div style="margin-top:10px;font-size:13px;color:var(--mute);font-weight:600">6-digit code from the inbox</div>
+    </div>
+  </div>
+  <!-- consent card -->
+  <div class="abs win a" data-in="49.4" style="left:60px;top:330px;width:380px;height:290px">
+    <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="t">Consent · Descope</span></div>
+    <div style="padding:20px 26px">
+      <div style="font-weight:800;font-size:18px">Allow Claude to:</div>
+      <div style="margin-top:12px;font-size:15px;line-height:2;font-weight:600">
+        <div>☑ See your own profile and pay</div>
+        <div>☑ See and submit your own expenses</div>
+      </div>
+      <div class="a" data-in="50.6" style="margin-top:16px;height:42px;border-radius:10px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">Authorize</div>
+    </div>
+  </div>
+  <!-- access policy -->
+  <div class="abs card a" data-in="51.0" style="left:480px;top:330px;width:400px;padding:18px 20px">
+    <div style="font-size:13px;font-weight:800;color:var(--mute);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px">Descope · Access Policy</div>
+    <div style="font-size:14.5px;line-height:1.5">
+      <div style="padding:6px 0;border-bottom:1px solid var(--line)"><b>Employee</b><br><span class="pill">hr:profile</span><span class="pill">hr:expenses</span></div>
+      <div style="padding:6px 0;border-bottom:1px solid var(--line)"><b>Manager</b><br><span class="pill">+ hr:approvals</span><span class="pill">+ hr:team-salaries</span></div>
+      <div style="padding:6px 0"><b>HR Admin</b><br><span class="pill">+ hr:approvals</span><span class="pill">+ hr:salaries</span></div>
+    </div>
+  </div>
+  <div class="abs a" data-in="53.8" style="left:920px;top:330px;width:310px;font-size:19px;line-height:1.55;font-weight:600;color:#2C3242">
+    <div style="margin-bottom:14px">✓ The person signs in</div>
+    <div style="margin-bottom:14px">✓ They approve what Claude may do</div>
+    <div style="margin-bottom:14px">✓ Their role decides what goes in the token</div>
+    <div>✓ No new URL, no new client</div>
+  </div>
+  <div class="cap a" data-in="54.2">Claude acts <em>as a real person</em>, with only that person's access.</div>
+</section>
+
+<!-- ================= STAGE 3b chats 57-85 ================= -->
+<section class="scene" data-in="57" data-out="88.2">
+  <div class="tag"><b>3</b> Stage 3 · Secured with Descope</div>
+  <div class="h1">Each assistant gets what its person's role allows</div>
+  <!-- persona badges -->
+  <div class="abs card pc a" data-in="57.4" data-out="66.2" style="left:48px;top:170px">
+    <div class="prow"><span class="av" style="background:#3D5AFE">E</span><div><div class="pn">Emma</div><div class="pr">Employee</div></div></div>
+    <div style="margin-top:14px;font-size:13px;font-weight:700;color:var(--mute)">TOKEN SCOPES</div>
+    <div style="margin-top:6px"><span class="pill">hr:profile</span><span class="pill">hr:expenses</span></div>
+  </div>
+  <div class="abs card pc a" data-in="66.2" data-out="75.2" style="left:48px;top:170px">
+    <div class="prow"><span class="av" style="background:#E8A317">M</span><div><div class="pn">Mark</div><div class="pr">Manager</div></div></div>
+    <div style="margin-top:14px;font-size:13px;font-weight:700;color:var(--mute)">TOKEN SCOPES</div>
+    <div style="margin-top:6px"><span class="pill">hr:profile</span><span class="pill">hr:expenses</span><span class="pill">hr:approvals</span><span class="pill">hr:team-salaries</span></div>
+  </div>
+  <div class="abs card pc a" data-in="75.2" data-out="88.2" style="left:48px;top:170px">
+    <div class="prow"><span class="av" style="background:#21965A">H</span><div><div class="pn">Hannah</div><div class="pr">HR Admin</div></div></div>
+    <div style="margin-top:14px;font-size:13px;font-weight:700;color:var(--mute)">TOKEN SCOPES</div>
+    <div style="margin-top:6px"><span class="pill">hr:profile</span><span class="pill">hr:expenses</span><span class="pill">hr:approvals</span><span class="pill">hr:salaries</span></div>
+  </div>
+  <div class="abs a" data-in="58.0" style="left:48px;top:400px;width:340px;font-size:18px;line-height:1.55;font-weight:600;color:#2C3242">
+    <div style="margin-bottom:10px"><span class="desc" style="font-size:18px"><img class="dl" src="descope.png">Descope</span> says <i>what kind</i> of access.</div>
+    <div>The app decides <i>whose</i> records, because it knows the org chart.</div>
+  </div>
+  <!-- chat -->
+  <div class="abs win chat a" data-in="57.2" style="left:420px;top:150px;width:812px;height:480px">
+    <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="t">Claude</span>
+      <span style="margin-left:auto" class="pill g a" data-in="57.2" data-out="66.2">matrix · signed in as Emma Clarke</span>
+      <span style="position:absolute;right:12px" class="pill g a" data-in="66.2" data-out="75.2">matrix · signed in as Mark Davies</span>
+      <span style="position:absolute;right:12px" class="pill g a" data-in="75.2">matrix · signed in as Hannah Lee</span>
+    </div>
+    <div class="msgs">
+      <!-- Emma -->
+      <div class="ex a" data-in="57.8" data-out="66.0">
+        <div class="u"><span class="type" data-in="57.8" data-text="What is the CEO Olivia Chen paid?"></span></div>
+        <div class="c a" data-in="59.0"><img src="claude.svg"><div style="flex:1"><div class="tool">⚙ matrix · get_salary</div><div class="deny"><span class="ic r">✕</span>Access denied. Emma can't see other people's salaries.</div></div></div>
+        <div class="u a" data-in="61.2" style="margin-top:18px"><span class="type" data-in="61.2" data-text="Submit a $45 expense for a taxi."></span></div>
+        <div class="c a" data-in="62.4"><img src="claude.svg"><div style="flex:1"><div class="tool">⚙ matrix · submit_expense</div><div class="ok"><span class="ic g">✓</span>Filed: Taxi, $45, for Emma Clarke.</div></div></div>
+      </div>
+      <!-- Mark -->
+      <div class="ex a" data-in="66.6" data-out="75.0">
+        <div class="u"><span class="type" data-in="66.6" data-text="What do Emma Clarke and Raj Patel earn?"></span></div>
+        <div class="c a" data-in="67.8"><img src="claude.svg"><div style="flex:1"><div class="tool">⚙ matrix · get_salary</div>
+          <table style="max-width:420px"><tr><td>Emma Clarke · direct report</td><td>$135,000</td></tr><tr><td>Raj Patel · direct report</td><td>$158,000</td></tr></table></div></div>
+        <div class="u a" data-in="70.2" style="margin-top:18px"><span class="type" data-in="70.2" data-text="What does Sofia Martinez earn?"></span></div>
+        <div class="c a" data-in="71.4"><img src="claude.svg"><div style="flex:1"><div class="tool">⚙ matrix · get_salary</div><div class="deny"><span class="ic r">✕</span>Access denied. Sofia is not one of Mark's direct reports.</div></div></div>
+      </div>
+      <!-- Hannah -->
+      <div class="ex a" data-in="75.6" data-out="80.2">
+        <div class="u"><span class="type" data-in="75.6" data-text="List every employee with their salary."></span></div>
+        <div class="c a" data-in="76.8"><img src="claude.svg"><div style="flex:1"><div class="tool">⚙ matrix · list_employees</div>
+          <table>
+            <tr><td>Olivia Chen · CEO</td><td>$320,000</td></tr>
+            <tr><td>Mark Davies · Engineering Manager</td><td>$185,000</td></tr>
+            <tr><td>Hannah Lee · HR Director</td><td>$172,000</td></tr>
+            <tr><td>Daniel Kim · Sales Manager</td><td>$165,000</td></tr>
+            <tr><td>Raj Patel · Senior Software Engineer</td><td>$158,000</td></tr>
+            <tr><td>Emma Clarke · Software Engineer</td><td>$135,000</td></tr>
+            <tr><td>Sofia Martinez · Account Executive</td><td>$118,000</td></tr>
+          </table></div></div>
+      </div>
+      <div class="ex a" data-in="80.4" data-out="88.2">
+        <div class="u"><span class="type" data-in="80.4" data-text="Set Emma Clarke's salary to 140,000."></span></div>
+        <div class="c a" data-in="81.6"><img src="claude.svg"><div style="flex:1"><div class="tool">⚙ matrix · update_salary</div><div class="ok"><span class="ic g">✓</span>Done. Emma Clarke's salary is now $140,000.</div></div></div>
+        <div class="card a" data-in="83.0" style="margin-top:22px;padding:14px 16px">
+          <div style="font-size:13px;font-weight:800;color:var(--mute);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px">Portal · Activity log</div>
+          <div class="log">
+            <div class="row"><span class="pill g">MCP</span><span><b>Hannah Lee</b> changed salary of Emma Clarke: 135,000 → 140,000</span></div>
+            <div class="row"><span class="pill r">MCP · denied</span><span><b>Mark Davies</b> tried to read salary of Sofia Martinez</span></div>
+            <div class="row" style="border:0"><span class="pill r">MCP · denied</span><span><b>Emma Clarke</b> tried to read salary of Olivia Chen</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="input">Reply to Claude…</div>
+  </div>
+  <div class="cap a" data-in="84.0">Every MCP call is tied to <em>a real name</em>, not "anonymous".</div>
+</section>
+
+<!-- ================= TAKEAWAY 85-93 ================= -->
+<section class="scene" data-in="88.0" data-out="97.0">
+  <div class="abs a big" data-in="88.4" style="left:0;right:0;top:170px;text-align:center;font-size:46px">An MCP server is a new front door to your app.</div>
+  <div class="abs a" data-in="89.4" style="left:0;right:0;top:250px;text-align:center;font-size:26px;color:var(--mute);font-weight:600">Give it the same identity and authorization as the rest of the app.</div>
+  <div class="abs a" data-in="90.4" style="left:0;right:0;top:340px;display:flex;justify-content:center;gap:16px;font-size:17px;font-weight:700">
+    <span class="card" style="padding:14px 20px">👤 Every call is a real person</span>
+    <span class="card" style="padding:14px 20px">🔑 Least privilege per role</span>
+    <span class="card" style="padding:14px 20px">📜 Audit log with names</span>
+  </div>
+  <div class="abs a" data-in="91.6" style="left:0;right:0;top:470px;display:flex;justify-content:center;align-items:center;gap:26px;font-size:34px">
+    <span class="desc"><img class="dl" src="descope.png">Descope</span><span style="color:#B3B8C6">+</span><span class="claude"><img src="claude.svg">Claude</span>
+  </div>
+</section>
+
+<script>
+const clamp=(x)=>Math.max(0,Math.min(1,x));
+const ease=(x)=>1-Math.pow(1-x,3);
+const els=[...document.querySelectorAll('[data-in]')];
+const parentScene=(el)=>el.closest('.scene');
+window.DURATION=96;
+window.render=function(t){
+  for(const el of els){
+    const tin=parseFloat(el.dataset.in), tout=el.dataset.out?parseFloat(el.dataset.out):1e9;
+    if(el.classList.contains('type')){
+      const cps=parseFloat(el.dataset.cps||34), txt=el.dataset.text;
+      const n=Math.floor(clamp((t-tin)*cps/txt.length)*txt.length);
+      el.textContent=t<tin?'':txt.slice(0,n);
+      if(t>=tin && n<txt.length) el.textContent+='▍';
+      continue;
+    }
+    if(el.classList.contains('grow')){ el.style.transform=`scaleX(${ease(clamp((t-tin)/0.6))})`; continue; }
+    const isScene=el.classList.contains('scene');
+    const d=isScene?0.45:0.4;
+    const pin=ease(clamp((t-tin)/d)), pout=1-clamp((t-(tout-0.3))/0.3);
+    const o=Math.min(pin,pout);
+    el.style.opacity=o;
+    if(!isScene) el.style.transform=`translateY(${(1-pin)*14}px)`;
+    el.style.visibility=o<=0.001?'hidden':'visible';
+  }
+};
+render(0);
+</script>
+</body></html>
